@@ -11,11 +11,11 @@ class GoogleAuth:
 		r = requests.post(config.get("Google", "auth_endpoint"), payload, headers=headers)
 		response = r.json()
 		if 'error' in response:
-			print "Nastala chyba pri odosielani poziadavky: " + response['error_description']
+			print "Error response from Google server: " + response['error_description']
 			return False
 		else:
-			print("Autorizacny kod: " + response['user_code'])
-			print("Overovacia adresa: " + response['verification_url'])
+			print("Authorization code: " + response['user_code'])
+			print("Verification URL: " + response['verification_url'])
 			return response
 
 	def refresh_token(self):
@@ -29,10 +29,10 @@ class GoogleAuth:
 		r = requests.post(config.get("Google", "token_endpoint"), payload, headers=headers)
 		response = r.json()
 		if 'error' in response:
-			print "Nastala chyba pri odosielani poziadavky: " + response['error_description']
+			print "Error response from Google server: " + response['error_description']
 			return False
 		else:
-			print("Ziskal som novy access token")
+			print("New access token received")
 			config.set("Token", "access_token", response['access_token'])
 			config.set("Token", "expires", str(int(time.time()) + response['expires_in']))
 			return True
@@ -63,7 +63,7 @@ class GoogleAuth:
 					code['interval'] += 1
 					time.sleep(code['interval'])
 			else:
-				print("Ziskal som access token")
+				print("New access token received")
 				config.set("Token", "access_token", response['access_token'])
 				config.set("Token", "refresh_token", response['refresh_token'])
 				config.set("Token", "expires", str(int(time.time()) + response['expires_in']))

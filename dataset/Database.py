@@ -15,13 +15,13 @@ class Database:
 			database=config.get("Database", "schema")
 		)
 		if self.conn.is_connected():
-			print("[Databaza] Pripojil som sa k {0}".format(self.conn.server_host))
+			print("[Database] Connected to {0}".format(self.conn.server_host))
 
 	def insert(self, temperature, humidity):
 		cursor = self.conn.cursor()
 		add_record = "INSERT INTO measurement (mst_date, mst_temperature, mst_humidity) VALUES (NOW(), %s, %s)"
 		cursor.execute(add_record, temperature, humidity)
-		print("[Databaza] Odoslane merianie cislo {0}".format(cursor.lastrowid))
+		print("[Database] Inserting measurement {0}".format(cursor.lastrowid))
 		self.conn.commit()
 		cursor.close()
 

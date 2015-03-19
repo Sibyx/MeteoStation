@@ -8,7 +8,7 @@ from pprint import pprint
 
 class FusionTable:
 	def __init__(self):
-		print("[FusionTable] Inicializacia")
+		print("[FusionTable] Initialization")
 
 	@staticmethod
 	def insert(data):
@@ -19,9 +19,9 @@ class FusionTable:
 		r = requests.post("https://www.googleapis.com/fusiontables/v2/query", payload, headers=headers)
 		response = r.json()
 		if 'error' in response:
-			print "[FusionTable] Nastala chyba pri odosielani poziadavky: " + response['error']['message']
+			print "[FusionTable] Error response from Google server: " + response['error']['message']
 			pprint(response)
 			return False
 		else:
-			print("[FusionTable] Zaznam bol uspesne odoslany!")
+			print("[FusionTable] Record has been successfully inserted!")
 			return True
